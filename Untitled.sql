@@ -1,0 +1,29 @@
+CREATE DATABASE IF NOT EXISTS juego;
+USE juego;
+
+-- Crear la tabla de estudiantes
+CREATE TABLE students (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL
+);
+
+-- Crear la tabla de niveles
+CREATE TABLE levels (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL,
+  expectedAnswer FLOAT NOT NULL
+);
+
+-- Crear la tabla de respuestas de los estudiantes
+CREATE TABLE student_answers (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  studentId INT UNSIGNED NOT NULL,
+  levelId INT UNSIGNED NOT NULL,
+  answer FLOAT NOT NULL,
+  score INT NOT NULL,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (studentId) REFERENCES students(id) ON DELETE CASCADE,
+  FOREIGN KEY (levelId) REFERENCES levels(id) ON DELETE CASCADE
+);
