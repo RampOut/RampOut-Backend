@@ -1,48 +1,19 @@
-/*import { Sequelize } from "sequelize-typescript";
-import { Player } from "../models/Player";
-
-export const connection = new Sequelize({
-    database: 'rampOut', 
-    dialect: 'mysql',
-    username: 'root', 
-    password: '1234', 
-    storage: ':memory:',
-    models: [
-        Player
-    ],
-});
-
-async function connectionDB() {
-try{
-    await connection.sync(); 
-}catch(e){
-    console.log(e);
-}
-}
-
-export default connectionDB;*/
-
 import { Sequelize } from "sequelize-typescript";
-import { Player } from "../models/Player";
-import { Team } from "../models/Team";
+import { hosts } from "../models/hosts";
+import dotenv from 'dotenv';
 
-export const connection = new Sequelize({
-    database: 'rampout', 
-    dialect: 'mysql',
-    username: 'ramp_user', 
-    password: '1234', 
-    storage: ':memory:',
-    models: [
-        Player, Team
-    ],
+// Permite maneja variables de entorno, las cuales permiten la introduccion de credenciales
+// Sin que estas esten plasmadas como tal en el codigo fuente.
+dotenv.config();
+
+// Se establecen los credenciales para el utilizamiento del sequelize.
+const sequelize = new Sequelize({
+  dialect: "mysql",
+  host: process.env.DB_HOST || "localhost",
+  database: process.env.DB_NAME || "rampout_db",
+  username: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD || "",//! pon tu contraseña
+  models: [hosts, Player, Team],
 });
 
-async function connectionDB() {
-try{
-    await connection.sync(); 
-}catch(e){
-    console.log(e);
-}
-}
-
-export default connectionDB;
+export default sequelize;
