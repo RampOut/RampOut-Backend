@@ -31,14 +31,23 @@ app.use('/', comHostRoutes);
 app.use('/host', hostRoutes);
 
 // Se inicializa sequilize
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("DB connected");
+const connectedSyncDB = async () => {
+  try {
+    await sequelize.authenticate().then(() => {
+      console.log("DB connected");
+    });
+
+    await sequelize.sync().then(() => {
+      console.log("Models synchronized");
+    });
+
+    // Iniciar el servidor
     app.listen(port, () => {
       console.log(`Server running on port ${port}`);
     });
-  })
-  .catch((error) => {
-    console.error("DB connection error:", error);
-  });
+  } catch (error: unknown) {
+    console.error("DB connection or synchronization error:", error);
+  }
+};
+
+connectedSyncDB();
