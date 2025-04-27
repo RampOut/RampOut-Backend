@@ -1,5 +1,5 @@
 import apiRouter from "./src/routes";
-import connectionDB from "./connection/connection";
+import connectionDB from "./src/connection/connection"
 
 const express = require("express")
 const morgan = require("morgan");
