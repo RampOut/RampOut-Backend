@@ -13,7 +13,7 @@ const sequelize = new Sequelize({
   database: process.env.DB_NAME || "rampout_db",
   username: process.env.DB_USER || "root",
   password: process.env.DB_PASSWORD || "",//! pon tu contraseña
-  models: [hosts],
+  models: [hosts, Player, Team],
 });
 
 export default sequelize;

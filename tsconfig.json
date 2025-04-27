@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+
     "target": "es6",
     "module": "commonjs",
     "outDir": "./dist",
@@ -7,6 +8,9 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true, 
+    "skipLibCheck": true   
   },
   "include": ["src"]
+
 }
