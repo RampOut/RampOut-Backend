@@ -12,8 +12,8 @@ export const createPlayer: RequestHandler = (req: Request, res: Response) => {
     });
     return;
   }
-  const player = { ...req.body };
-  Player.create(player)
+  const PlayerData = { ...req.body };
+  Player.create(PlayerData)
     .then((data: Player | null) => {
       res.status(200).json({
         status: "success",
