@@ -5,6 +5,7 @@ import sequelize from "./connection/connection";
 import cors from "cors";
 import hostRoutes from './routes/hostRoutes'
 import comHostRoutes from './routes/comhostRoutes'
+import apiRouter from "./routes";
 
 // Definicion de constantes
 const app = express();
@@ -27,8 +28,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/', comHostRoutes);
-app.use('/host', hostRoutes);
+app.use('/api', apiRouter)
 
 // Se inicializa sequilize
 const connectedSyncDB = async () => {

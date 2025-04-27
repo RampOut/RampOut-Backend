@@ -13,7 +13,7 @@ import bcrypt from "bcrypt";
 @Table({
   tableName: "host",
 })
-export class hosts extends Model {
+export class Host extends Model {
   @Column({
     type: DataType.INTEGER,
     autoIncrement: true,
@@ -40,7 +40,7 @@ export class hosts extends Model {
   // Hook para encriptar la contraseña antes de guardar
   @BeforeCreate
   @BeforeUpdate
-  static async hashPassword(instance: hosts) {
+  static async hashPassword(instance: Host) {
     if (instance.password) {
       const salt = await bcrypt.genSalt(10); // Generar un salt
       instance.password = await bcrypt.hash(instance.password, salt); // Encriptar la contraseña

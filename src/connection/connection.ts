@@ -1,5 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
-import { hosts } from "../models/hosts";
+import { Host } from "../models/Host";
+import { Player } from "../models/Player";
+import { Team } from "../models/Team";
 import dotenv from 'dotenv';
 
 // Permite maneja variables de entorno, las cuales permiten la introduccion de credenciales
@@ -13,7 +15,7 @@ const sequelize = new Sequelize({
   database: process.env.DB_NAME || "rampout_db",
   username: process.env.DB_USER || "root",
   password: process.env.DB_PASSWORD || "",//! pon tu contraseña
-  models: [hosts, Player, Team],
+  models: [Host, Player, Team],
 });
 
 export default sequelize;

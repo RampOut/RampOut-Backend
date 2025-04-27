@@ -1,5 +1,5 @@
 import Espress, { Request, Response } from "express";
-import { hosts } from "../../models/hosts";
+import { Host } from "../../models/Host";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { secretKey } from "../../config";
@@ -17,7 +17,7 @@ export const createToken = async (
       return;
     }
 
-    const user = await hosts.findOne({ where: { username } });
+    const user = await Host.findOne({ where: { username } });
 
     if (!user) {
       res

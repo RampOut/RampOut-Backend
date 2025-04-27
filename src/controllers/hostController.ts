@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { hosts } from "../models/hosts";
+import { Host } from "../models/Host";
 import { tokenBlackList } from "../blacklist";
 
 // Muestra los datos de los host.
@@ -7,7 +7,7 @@ export const getHostById = async (req: Request, res: Response, next: NextFunctio
   try{
     const hostId = req.params.id;
 
-    const host = await hosts.findByPk(hostId, {
+    const host = await Host.findByPk(hostId, {
       attributes: ['id', 'username']
     });
 
@@ -36,13 +36,13 @@ export const createHost = async (
       return;
     }
 
-    const existingHost = await hosts.findOne({ where: { username } });
+    const existingHost = await Host.findOne({ where: { username } });
     if (existingHost) {
       res.status(409).json({ message: "Host already exists" });
       return;
     }
 
-    const newUser = await hosts.create({ username, password });
+    const newUser = await Host.create({ username, password });
 
     res
       .status(201)
@@ -68,19 +68,19 @@ export const createHostOnce = async (
       return;
     }
     
-    const totalUsers = await hosts.count();
+    const totalUsers = await Host.count();
     if (totalUsers > 0) {
       res.status(409).json({ message: "A user already exists in the database" });
       return;
     }
 
-    const existingHost = await hosts.findOne({ where: { username } });
+    const existingHost = await Host.findOne({ where: { username } });
     if (existingHost) {
       res.status(409).json({ message: "Host already exists" });
       return;
     }
 
-    const newUser = await hosts.create({ username, password });
+    const newUser = await Host.create({ username, password });
 
     res
       .status(201)
@@ -114,7 +114,7 @@ export const updateHostPassword = async (req: Request, res: Response): Promise<v
       return;
     }
 
-    const existingHost = await hosts.findOne({ where: { id: hostId } });
+    const existingHost = await Host.findOne({ where: { id: hostId } });
     if (!existingHost) {
       res.status(404).json({ message: "Host not found" });
       return;
@@ -165,7 +165,7 @@ export const deleteHost = async (req: Request, res: Response) => {
       return;
     }
 
-    const deleted = await hosts.destroy({
+    const deleted = await Host.destroy({
       where: {id: hostId}
     });
 
