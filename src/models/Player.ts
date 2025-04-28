@@ -29,7 +29,7 @@ export class Player extends Model<PlayerAtributes, PlayersCreationAtributes> {
     @Column
     teamId!: number; 
 
-    @BelongsTo(() => Team)
-    team!: Team; 
+    @BelongsTo(() => Team, { as:"playerTeam"})
+    playerTeam!: Team; 
   }
   

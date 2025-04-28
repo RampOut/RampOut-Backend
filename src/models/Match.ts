@@ -19,10 +19,14 @@ interface MatchCreationAttributes extends Optional<MatchAttributes, 'id'>{}
 export class Match extends Model<MatchAttributes, MatchCreationAttributes> {
     @HasMany(() => Team)
     teams?: Team[]; 
-    
-    @HasOne(() => Host)
-    host!: Host; 
-    
+   
+    @ForeignKey(() => Host)
+    @Column 
+    hostId!: number; 
+
+    @BelongsTo(() => Host, { as: "hostedMatch"})
+    hostedMatch!: Host;
+
     @HasMany(() => Level)
     levels?: Level[]; 
 }

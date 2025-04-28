@@ -28,6 +28,6 @@ export class Team extends Model<TeamAttributes, TeamsCreationAtributes> {
   @Column
   matchId!: number; 
 
-  @BelongsTo(() => Match)
-  match!: Match; 
+  @BelongsTo(() => Match, { as: "teamMatch"})
+  teamMatch!: Match; 
 }
