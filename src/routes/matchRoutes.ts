@@ -7,7 +7,7 @@ const matchRouter:Router = Router();
 matchRouter.get('/', getALLMatches); 
 matchRouter.get('/:id', getMatchById); 
 matchRouter.post('/', createMatch); 
-matchRouter.delete('/', deleteMatch); 
-matchRouter.patch('/', updateMatch); 
+matchRouter.delete('/:id', deleteMatch); 
+matchRouter.patch('/:id', updateMatch); 
 
 export default matchRouter; 

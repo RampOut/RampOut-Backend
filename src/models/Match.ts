@@ -23,8 +23,7 @@ export class Match extends Model<MatchAttributes, MatchCreationAttributes> {
     @ForeignKey(() => Host)
     @Column 
     hostId!: number; 
-
-    @BelongsTo(() => Host, { as: "hostedMatch"})
+    @BelongsTo(() => Host, { onDelete: 'CASCADE', as: "hostedMatch"})
     hostedMatch!: Host;
 
     @HasMany(() => Level)

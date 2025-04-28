@@ -7,6 +7,7 @@ interface TeamAttributes {
   id: number;
   scoreTotal: number;
   scorePerRound: number[];
+  //! Falta ===> answersPerRound: answers; 
 }
 
 interface TeamsCreationAtributes extends Optional<TeamAttributes, 'id'>{}

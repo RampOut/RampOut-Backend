@@ -14,6 +14,12 @@ import {
 import bcrypt from "bcrypt";
 import { Match } from "./Match";
 
+interface HostAttributes {
+  username: string, 
+  password: string, 
+
+}
+
 @Table({
   tableName: "host",
 })
