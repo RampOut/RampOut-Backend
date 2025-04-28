@@ -1,35 +1,54 @@
-import { Table, Model, Column, CreatedAt, UpdatedAt, Unique, DataType, ForeignKey, BelongsTo, HasOne} from "sequelize-typescript";
+import { Table, Model, Column, CreatedAt, UpdatedAt, Unique, DataType, ForeignKey, BelongsTo, HasOne } from "sequelize-typescript";
 import { Optional } from "sequelize";
 import { Team } from "./Team";
+import { Level } from './Level';
 
-interface PlayerAtributes {
-    id: number;
-    firstName: string; 
-    lastName: string; 
-    matricula: string; 
-    teamId: number; 
+interface PlayerAttributes {
+  id: number;
+  firstName: string;
+  lastName: string;
+  matricula: string;
+  teamId: number;
+  levelId: number;  
+  score: number;    
 }
 
-interface PlayersCreationAtributes extends Optional<PlayerAtributes, 'id'>{}
+interface PlayersCreationAttributes extends Optional<PlayerAttributes, 'id'> {}
+
 @Table({
-    tableName: "Players"
+  tableName: "Players"
+})
+export class Player extends Model<PlayerAttributes, PlayersCreationAttributes> {
 
-  })
-export class Player extends Model<PlayerAtributes, PlayersCreationAtributes> {
-    @Column({ type: DataType.STRING })
-    firstName!: string;
-  
-    @Column({ type: DataType.STRING })
-    lastName!: string;
+  @Column({ type: DataType.STRING })
+  firstName!: string;
 
-    @Column({ type:DataType.STRING })
-    matricula!: string; 
+  @Column({ type: DataType.STRING })
+  lastName!: string;
 
-    @ForeignKey(() => Team)
-    @Column
-    teamId!: number; 
+  @Column({ type: DataType.STRING })
+  matricula!: string;
 
-    @BelongsTo(() => Team)
-    team!: Team; 
-  }
-  
+  @ForeignKey(() => Team)
+  @Column
+  teamId!: number;
+
+  @BelongsTo(() => Team)
+  team!: Team;
+
+  @ForeignKey(() => Level)
+  @Column
+  levelId!: number;
+
+  @BelongsTo(() => Level)
+  level!: Level;
+
+  @Column({ type: DataType.INTEGER, defaultValue: 0 })
+  score!: number;
+
+  @CreatedAt
+  createdAt!: Date;
+
+  @UpdatedAt
+  updatedAt!: Date;
+}
