@@ -10,7 +10,7 @@ apiRouter.use("/player", playerRouter);
 apiRouter.use("/team", teamRouter);
 apiRouter.use('/', comHostRoutes);
 apiRouter.use('/host', hostRoutes);
-apiRouter.get('/', (req:Request, res:Response)=> {
+apiRouter.get('/hello', (req:Request, res:Response)=> {
     res.send("Hello there")
 });
 
