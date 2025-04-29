@@ -1,32 +1,32 @@
-import { Table, Model, Column, DataType, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript';
-import { Optional } from 'sequelize';
-import { Team } from './Team';
-import { Host } from './Host';
-import { Level } from './Level';
+import { Table, Model, Column, DataType, ForeignKey, BelongsTo, HasMany, HasOne } from "sequelize-typescript";
+import { Optional } from "sequelize";
+import { Team } from "./Team";
+import { table } from "console";
+import { Host } from "./Host";
+import { Level } from "./Level";
 
 interface MatchAttributes {
-  id: number;
-  teams?: Team[];
-  host?: Host;
-  levels?: Level[];
+    id: number; 
+    teams?: Team[]; 
+    hostId: Host; 
+    levels?: Level[]; 
 }
-
-interface MatchCreationAttributes extends Optional<MatchAttributes, 'id'> {}
+interface MatchCreationAttributes extends Optional<MatchAttributes, 'id'>{}
 
 @Table({
-  tableName: 'Match',
+    tableName: "Matches"
 })
 export class Match extends Model<MatchAttributes, MatchCreationAttributes> {
-  @HasMany(() => Team)
-  teams?: Team[];
+    @HasMany(() => Team)
+    teams?: Team[]; 
+   
+    @ForeignKey(() => Host)
+    @Column(DataType.INTEGER)
+    hostId!: number; 
+    
+    @BelongsTo(() => Host, { onDelete: 'CASCADE', as: "hostedMatch"})
+    hostedMatch!: Host;
 
-  @ForeignKey(() => Host)
-  @Column
-  hostId!: number;
-
-  @BelongsTo(() => Host, { onDelete: 'CASCADE', as: 'hostedMatch' })
-  hostedMatch!: Host;
-
-  @HasMany(() => Level)
-  levels?: Level[];
+    @HasMany(() => Level)
+    levels?: Level[]; 
 }

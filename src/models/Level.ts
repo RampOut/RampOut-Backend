@@ -1,7 +1,9 @@
 import { Table, Model, Column, DataType, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript';
 import { Optional } from 'sequelize';
 import { Match } from './Match';
+import { Team } from "./Team";
 import { Car } from './Car';
+import { table } from "console";
 
 interface LevelAttributes {
   id: number;
@@ -10,7 +12,9 @@ interface LevelAttributes {
   expectedAnswer: number;
   gravity: number;
   matchId: number;
+  clue: string; 
 }
+
 
 interface LevelCreationAttributes extends Optional<LevelAttributes, 'id'> {}
 
