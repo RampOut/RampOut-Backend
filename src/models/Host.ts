@@ -6,9 +6,18 @@ import {
   BeforeCreate,
   BeforeUpdate,
   CreatedAt,
-  UpdatedAt
+  UpdatedAt,
+  HasMany
 } from "sequelize-typescript";
 import bcrypt from "bcrypt";
+import { Match } from "./Match";
+
+interface HostAttributes {
+  username: string, 
+  password: string,
+  role: string
+
+}
 
 @Table({
   tableName: "host",
@@ -33,6 +42,16 @@ export class Host extends Model {
     allowNull: false,
   })
   password!: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    defaultValue: "user", // Rol por defecto
+  })
+  role!: string;
+
+  @HasMany(() => Match)
+  match?: Match[]; 
 
   @CreatedAt @Column({ type: DataType.DATE }) Creado!: Date;
   @UpdatedAt @Column({ type: DataType.DATE }) Modificado!: Date;

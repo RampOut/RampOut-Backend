@@ -16,7 +16,16 @@ declare global {
     interface Request {
       username?: string;
       password?: string;
+      role?: string;
       token?: string;
     }
   }
 }
+
+// Se declaran los roles que pueden tener los Host.
+// ADMIN: Host con privilegios CRUD
+// User: Host sin privilegios.
+export const Roles = {
+  ADMIN: "admin",
+  USER: "user"
+};

@@ -1,15 +1,16 @@
 import { Router } from "express";
-import { createHost, deleteHost, getAccess, getHostById, hostLogout, updateHostPassword } from "../controllers/hostController";
-import { verifyToken } from "../middleware/servicio/auth";
+import { createHost, deleteHost, getAccess, getAllHost, getHostById, hostLogout, updateHost } from "../controllers/hostController";
+import { verifyToken, authorizeRole } from "../middleware/servicio/auth";
 
 // Router protegidos por firma.
-const router = Router();
-router.get("/", verifyToken, getAccess);
-router.get("/:id", verifyToken, getHostById);
-router.post('/:id', verifyToken, hostLogout);
-router.post("/", verifyToken, createHost);
-router.patch("/:id", verifyToken, updateHostPassword);
-router.delete("/:id", verifyToken, deleteHost)
+const hostRoutes:Router = Router();
+hostRoutes.get("/admin",verifyToken, authorizeRole("admin"), getAllHost)
+hostRoutes.get("/", verifyToken, getAccess);
+hostRoutes.get("/:id", verifyToken, getHostById);
+hostRoutes.post('/:id', verifyToken, hostLogout);
+hostRoutes.post("/", verifyToken, authorizeRole("admin"), createHost);
+hostRoutes.patch("/:id", verifyToken,authorizeRole("admin"),  updateHost);
+hostRoutes.delete("/:id", verifyToken, authorizeRole("admin") ,deleteHost )
 
 
-export default router;
+export default hostRoutes;
