@@ -7,8 +7,6 @@ import {
   BeforeUpdate,
   CreatedAt,
   UpdatedAt,
-  BelongsToMany,
-  BelongsTo,
   HasMany
 } from "sequelize-typescript";
 import bcrypt from "bcrypt";
@@ -16,7 +14,8 @@ import { Match } from "./Match";
 
 interface HostAttributes {
   username: string, 
-  password: string, 
+  password: string,
+  role: string
 
 }
 
@@ -43,6 +42,13 @@ export class Host extends Model {
     allowNull: false,
   })
   password!: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    defaultValue: "user", // Rol por defecto
+  })
+  role!: string;
 
   @HasMany(() => Match)
   match?: Match[]; 
