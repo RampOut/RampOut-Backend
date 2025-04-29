@@ -98,4 +98,35 @@ export const deleteTeam: RequestHandler = async(req: Request, res: Response) =>{
     }   
 }
 
+export const updateTeamScore: RequestHandler = async (req: Request, res: Response): Promise<void> => {
+  const { scoreTotal } = req.body; // Extract scoreTotal from the request body
+  const teamScore = parseInt(scoreTotal, 10); // Convert scoreTotal to a number
 
+  // Validate that scoreTotal is a valid number
+  if (isNaN(teamScore)) {
+    res.status(400).json({
+      status: "error",
+      message: "Invalid scoreTotal parameter. It must be a valid number.",
+    });
+    return;
+  }
+
+  try {
+    const updatedTeams = await Team.update(
+      { scoreTotal: Team.sequelize!.literal(`scoreTotal + ${teamScore}`) },
+      { where: { id: req.params.id } }
+    );
+
+    res.status(200).json({
+      status: "success",
+      message: "Team scores successfully updated",
+      payload: updatedTeams,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Error updating team scores",
+      error,
+    });
+  }
+};
