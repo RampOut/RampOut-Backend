@@ -1,7 +1,9 @@
 import { Table, Model, Column, CreatedAt, UpdatedAt, Unique, DataType, ForeignKey, BelongsTo, HasOne } from "sequelize-typescript";
 import { Optional } from "sequelize";
 import { Team } from "./Team";
-import { Level } from './Level';
+import { Match } from "./Match";
+import { Level } from "./Level";
+import { Car } from "./Car";
 
 interface PlayerAttributes {
   id: number;
@@ -9,8 +11,8 @@ interface PlayerAttributes {
   lastName: string;
   matricula: string;
   teamId: number;
-  levelId: number;  
-  score: number;    
+  levelId: number;
+  score: number;
 }
 
 interface PlayersCreationAttributes extends Optional<PlayerAttributes, 'id'> {}
@@ -19,7 +21,6 @@ interface PlayersCreationAttributes extends Optional<PlayerAttributes, 'id'> {}
   tableName: "Players"
 })
 export class Player extends Model<PlayerAttributes, PlayersCreationAttributes> {
-
   @Column({ type: DataType.STRING })
   firstName!: string;
 
@@ -46,9 +47,10 @@ export class Player extends Model<PlayerAttributes, PlayersCreationAttributes> {
   @Column({ type: DataType.INTEGER, defaultValue: 0 })
   score!: number;
 
-  @CreatedAt
-  createdAt!: Date;
+  @ForeignKey(() => Match)
+  @Column
+  matchId!: number;
 
-  @UpdatedAt
-  updatedAt!: Date;
+  @BelongsTo(() => Match)
+  match!: Match;
 }

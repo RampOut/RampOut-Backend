@@ -1,30 +1,47 @@
-import { Table, Column, Model, DataType, HasMany, ForeignKey, BelongsTo } from "sequelize-typescript";
-import { Optional } from "sequelize";
-import { Player } from "./Player"; 
+import { Table, Model, Column, DataType, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript';
+import { Optional } from 'sequelize';
+import { Match } from './Match';
+import { Car } from './Car';
 
 interface LevelAttributes {
   id: number;
   name: string;
   description: string;
   expectedAnswer: number;
+  matchId: number;
 }
 
 interface LevelCreationAttributes extends Optional<LevelAttributes, 'id'> {}
 
 @Table({
-  tableName: "levels",
+  tableName: 'Levels',
 })
 export class Level extends Model<LevelAttributes, LevelCreationAttributes> {
-
-  @Column({ type: DataType.STRING })
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
   name!: string;
 
-  @Column({ type: DataType.TEXT })
+  @Column({
+    type: DataType.TEXT,
+    allowNull: false,
+  })
   description!: string;
 
-  @Column({ type: DataType.FLOAT })
+  @Column({
+    type: DataType.FLOAT,
+    allowNull: false,
+  })
   expectedAnswer!: number;
 
-  @HasMany(() => Player)
-  players!: Player[];
+  @ForeignKey(() => Match)
+  @Column
+  matchId!: number;
+
+  @BelongsTo(() => Match)
+  match!: Match;
+
+  @HasMany(() => Car)
+  cars!: Car[];
 }
