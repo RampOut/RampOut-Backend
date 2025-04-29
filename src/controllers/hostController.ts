@@ -2,12 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import { Host } from "../models/Host";
 import { tokenBlackList } from "../blacklist";
 
-interface host{
-  username?: string;
-  password?: string;
-  token?: string;
-}
-
 // Muestra los datos de los host.
 export const getHostById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try{
