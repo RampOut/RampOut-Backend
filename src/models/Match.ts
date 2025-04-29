@@ -8,21 +8,22 @@ import { Level } from "./Level";
 interface MatchAttributes {
     id: number; 
     teams?: Team[]; 
-    host?: Host; 
+    hostId: Host; 
     levels?: Level[]; 
 }
 interface MatchCreationAttributes extends Optional<MatchAttributes, 'id'>{}
 
 @Table({
-    tableName: "Match"
+    tableName: "Matches"
 })
 export class Match extends Model<MatchAttributes, MatchCreationAttributes> {
     @HasMany(() => Team)
     teams?: Team[]; 
    
     @ForeignKey(() => Host)
-    @Column 
+    @Column(DataType.INTEGER)
     hostId!: number; 
+    
     @BelongsTo(() => Host, { onDelete: 'CASCADE', as: "hostedMatch"})
     hostedMatch!: Host;
 

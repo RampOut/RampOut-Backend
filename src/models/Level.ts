@@ -10,10 +10,6 @@ interface LevelAttributes {
     clue: string; 
 
     
-    // Gravedad, Aceleración, Torque, Peso
-    // Tiempo ¿? 
-    // ! Empiezo a ver que puede ser necesario guardar la respuesta del jugador como algo distinto.
-    
 }
 
 interface LevelCreationAttributes extends Optional<LevelAttributes, "id">{}
@@ -27,7 +23,6 @@ export class Level extends Model<LevelAttributes, LevelCreationAttributes>{
     levelVariables!: number[];  
 
     @ForeignKey(() => Match)
-    @Column
     matchId!: number; 
 
     @BelongsTo(() => Match, { onDelete: 'CASCADE'})

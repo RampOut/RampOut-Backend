@@ -6,7 +6,7 @@ import { Match } from "./Match";
 interface TeamAttributes {
   id: number;
   scoreTotal: number;
-  scorePerRound: number[];
+  scorePerRound?: number[];
   //! Falta ===> answersPerRound: answers; 
 }
 
