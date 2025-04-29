@@ -1,6 +1,23 @@
 import { Request, Response, NextFunction } from "express";
+
+interface CustomRequest extends Request {
+  username?: string;
+  role?: string;
+}
 import { Host } from "../models/Host";
 import { tokenBlackList } from "../blacklist";
+
+//Muestra los datos de los hosts registrados
+export const getAllHost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const hosts = await Host.findAll({
+      attributes: ['id', 'username', 'role'],
+    });
+    res.status(200).json({ status: 'success', data: hosts });
+  } catch (error) {
+    next(error);
+  }
+};
 
 // Muestra los datos de los host.
 export const getHostById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -8,7 +25,7 @@ export const getHostById = async (req: Request, res: Response, next: NextFunctio
     const hostId = req.params.id;
 
     const host = await Host.findByPk(hostId, {
-      attributes: ['id', 'username']
+      attributes: ['id', 'username', 'role']
     });
 
     if (!host){
@@ -29,11 +46,15 @@ export const createHost = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { username, password } = req.body;
+    const { username, password, role } = req.body;
 
     if (!username || !password) {
       res.status(400).json({ message: "Username and password are required" });
       return;
+    }
+
+    if (role !== "admin" && role !== "user") {
+      res.status(400).json({ message: "Role not found" });
     }
 
     const existingHost = await Host.findOne({ where: { username } });
@@ -42,7 +63,7 @@ export const createHost = async (
       return;
     }
 
-    const newUser = await Host.create({ username, password });
+    const newUser = await Host.create({ username, password, role });
 
     res
       .status(201)
@@ -56,12 +77,14 @@ export const createHost = async (
 };
 
 // Funcion la que permite crear un host, solamente si la base de datos no tiene ninguno
-export const createHostOnce = async (
+export const createHostAdminOnce = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
     const { username, password } = req.body;
+
+    const role = "admin";
 
     if (!username || !password) {
       res.status(400).json({ message: "Username and password are required" });
@@ -74,13 +97,7 @@ export const createHostOnce = async (
       return;
     }
 
-    const existingHost = await Host.findOne({ where: { username } });
-    if (existingHost) {
-      res.status(409).json({ message: "Host already exists" });
-      return;
-    }
-
-    const newUser = await Host.create({ username, password });
+    const newUser = await Host.create({ username, password, role });
 
     res
       .status(201)
@@ -93,17 +110,19 @@ export const createHostOnce = async (
 };
 
 // Unicamente dice que tiene acceso.
-export const getAccess = (req: Request, res: Response): void => {
-  res.status(200).json({ message: "You have access", username: req.username });
+export const getAccess = (req: CustomRequest, res: Response): void => {
+  const hasAccess = !!req.username && !!req.role;
+  res.status(200).json({ hasAccess });
 };
 
 // Permite modificar la contraseña del propio host.
-export const updateHostPassword = async (req: Request, res: Response): Promise<void> => {
+export const updateHost = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { newPassword } = req.body;
+    const { newPassword, newRole } = req.body;
 
-    if (!newPassword) {
-      res.status(400).json({ message: "New password are required" });
+    // Validar que al menos uno de los campos (newPassword o newRole) esté presente
+    if (!newPassword && !newRole) {
+      res.status(400).json({ message: "At least one of newPassword or newRole is required" });
       return;
     }
 
@@ -119,15 +138,28 @@ export const updateHostPassword = async (req: Request, res: Response): Promise<v
       return;
     }
 
-    existingHost.password = newPassword;
+    // Actualizar la contraseña si se proporciona
+    if (newPassword) {
+      existingHost.password = newPassword;
+    }
+
+    // Actualizar el rol si se proporciona
+    if (newRole) {
+      if (newRole !== "admin" && newRole !== "user") {
+        res.status(400).json({ message: "Invalid role. Role must be 'admin' or 'user'" });
+        return;
+      }
+      existingHost.role = newRole;
+    }
+
     await existingHost.save();
 
-    res.status(200).json({ message: "Password updated successfully" });
+    res.status(200).json({ message: "Host updated successfully" });
   } catch (error) {
-    console.error("Error updating password:", error);
+    console.error("Error updating host:", error);
     res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
 // Permite cerrar la seccion del host
 export const hostLogout = (req: Request, res: Response): void => {
@@ -173,9 +205,7 @@ export const deleteHost = async (req: Request, res: Response) => {
       return;
     }
 
-    tokenBlackList.push(token);
-
-    res.json({ message: "Host successfully deleted and session terminated" });
+    res.json({ message: "Host successfully deleted" });
     return;
 
   }catch (err){
