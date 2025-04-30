@@ -7,10 +7,12 @@ import matchRouter from "./matchRoutes";
 import levelRouter from "./levelRoutes";
 import motorRouter from './motorRoutes';
 import tiresRouter from "./tiresRoutes";
+import answerRouter from "./answerRoutes";
+import chassisRouter from "./chassisRoutes";
 
 const apiRouter = Router(); 
 
-apiRouter.use("/player", playerRouter); //Validated 
+apiRouter.use("/player", playerRouter); //Validated ß
 apiRouter.use("/team", teamRouter); // Validated
 apiRouter.use('/', comHostRoutes); // Verificated by TulKasTer
 apiRouter.use('/host', hostRoutes); // Verificated by TulKasTer
@@ -18,6 +20,9 @@ apiRouter.use('/match', matchRouter); // Validated
 apiRouter.use('/level', levelRouter); // Verificated by TulKasTer
 apiRouter.use('/motors', motorRouter);
 apiRouter.use('/tires', tiresRouter); // Verificated by TulKasTer
+apiRouter.use('/answers', answerRouter);
+apiRouter.use('/chassis', chassisRouter);
+
 
 
 // ToDO 
