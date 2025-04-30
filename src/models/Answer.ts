@@ -6,7 +6,7 @@ import { Level } from './Level';
 import { Player } from './Player';
 import { Team } from './Team';
 
-interface StudentAnswerAttributes {
+interface AnswerAttributes {
   id: number;
   motorId: number;               // Relation with the Motor model
   tiresId: number;               // Relation with the Tires model
@@ -21,7 +21,7 @@ interface StudentAnswerAttributes {
 @Table({
   tableName: 'student_answers',
 })
-export class StudentAnswer extends Model<StudentAnswerAttributes> {
+export class Answer extends Model<AnswerAttributes> {
   @ForeignKey(() => Motor)
   @Column
   motorId!: number;

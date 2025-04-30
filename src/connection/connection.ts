@@ -5,9 +5,9 @@ import { Team } from "../models/Team";
 import { Level } from "../models/Level";
 import { Match } from "../models/Match";
 import { Chassis } from "../models/Chassis";
-import { Tires } from "../models/Tires";
-import { StudentAnswer } from '../models/StudentAnswer';
 import dotenv from 'dotenv';
+import { Motor } from "../models/Motor";
+import { Tires } from "../models/Tires";
 
 // Permite maneja variables de entorno, las cuales permiten la introduccion de credenciales
 // Sin que estas esten plasmadas como tal en el codigo fuente.
@@ -17,10 +17,10 @@ dotenv.config();
 const sequelize = new Sequelize({
   dialect: "mysql",
   host: process.env.DB_HOST || "localhost",
-  database: process.env.DB_NAME || "rampout_db",
+  database: process.env.DB_NAME || "rampout",
   username: process.env.DB_USER || "root",
   password: process.env.DB_PASSWORD || "",//! pon tu contraseña
-  models: [Host, Player, Team, Level, Chassis, Match, Tires, StudentAnswer],
+  models: [Host, Player, Team, Level, Chassis, Match, Tires, Motor],
 });
 
 export default sequelize;

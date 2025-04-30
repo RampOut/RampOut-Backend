@@ -1,5 +1,5 @@
-import { Table, Model, Column, DataType, PrimaryKey } from 'sequelize-typescript';
-
+import { Table, Model, Column, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Level } from './Level';
 interface TiresAttributes {
   id: number;         // id de llanta.
   diameter: number;   // diametro en cm
@@ -11,7 +11,6 @@ interface TiresAttributes {
   tableName: 'tires'
 })
 export class Tires extends Model<TiresAttributes> {
-  @PrimaryKey
   @Column({ type: DataType.INTEGER })
   id!: number;
 
@@ -21,6 +20,13 @@ export class Tires extends Model<TiresAttributes> {
   @Column({ type: DataType.FLOAT })
   weight!: number;
 
-  @Column({ type: DataType.ARRAY(DataType.STRING) })
+  @Column({ type: DataType.JSON})
   assets!: string[];
+
+  @ForeignKey(()=> Level)
+  @Column
+  levelId!: number; 
+  
+  @BelongsTo(() => Level)
+  level!: Level; 
 }

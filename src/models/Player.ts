@@ -3,7 +3,6 @@ import { Optional } from "sequelize";
 import { Team } from "./Team";
 import { Match } from "./Match";
 import { Level } from "./Level";
-import { Chassis } from "./Chassis";
 
 interface PlayerAtributes {
     id: number;
