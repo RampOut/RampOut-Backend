@@ -1,18 +1,32 @@
-import { Table, Model, Column, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Table, Model, Column, DataType , ForeignKey , BelongsTo } from 'sequelize-typescript';
 import { Level } from './Level';
-import { Match } from './Match';
 
 interface MotorAttributes {
-  power: number;  // Potencia en caballos de fuerza
-  rpmMax: number;    // RPM máxima
-  weight: number;      // Peso en kg
-  assets: string[];      //! la imagen
+  power: number;
+  rpmMax: number;
+  weight: number;
+  levelId?: number; 
+  assets: string[];  
 }
 
 @Table({
-  tableName: 'motors'
+  tableName: 'motors',
 })
 export class Motor extends Model<MotorAttributes> {
+
+  @Column({
+
+    type: DataType.INTEGER,
+    
+    primaryKey: true, // Definir 'id' como clave primaria
+    
+    autoIncrement: true, // Hacer que 'id' sea autoincrementable
+    
+    })
+    
+    id!: number;
+
+    
   @Column({ type: DataType.FLOAT })
   power!: number;
 
@@ -22,13 +36,17 @@ export class Motor extends Model<MotorAttributes> {
   @Column({ type: DataType.FLOAT })
   weight!: number;
 
-  @Column({ type: DataType.JSON})
-  assets!: string[];
+    @ForeignKey(()=> Level)
+    @Column
+    levelId?: number; 
+    
+    @BelongsTo(() => Level)
+    level?: Level; 
 
-  @ForeignKey(()=> Level)
-  @Column
-  levelId!: number; 
+@Column({ type: DataType.ARRAY(DataType.STRING) })
+assets!: string[];
 
-  @BelongsTo(() => Level)
-  level!: Level; 
+    
+
 }
+

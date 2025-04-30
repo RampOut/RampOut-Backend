@@ -78,7 +78,7 @@ export const updatelevel = async (req: Request, res: Response) => {
     await Level.update(req.body, { where: { id: req.params.id } });
     res.json({ message: 'level updated' });
   } catch (err) {
-    res.status(500).json({ error: `Error updating emlpoyee with id: ${req.params.id}`});
+    res.status(500).json({ error: `Error updating level with id: ${req.params.id}`});
     console.log(`Error updatinglevel with id: ${req.params.id}`)
   }
 };

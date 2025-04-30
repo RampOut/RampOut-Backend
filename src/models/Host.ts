@@ -12,17 +12,10 @@ import {
 import bcrypt from "bcrypt";
 import { Match } from "./Match";
 
-interface HostAttributes {
-  username: string, 
-  password: string,
-  role: string
-
-}
-
 @Table({
   tableName: "host",
 })
-export class Host extends Model {
+export class Host extends Model{
   @Column({
     type: DataType.INTEGER,
     autoIncrement: true,

@@ -4,6 +4,7 @@ import { Tires } from './Tires';
 import { Chassis } from './Chassis';
 import { Level } from './Level';
 import { Player } from './Player';
+import { Team } from './Team';
 
 interface AnswerAttributes {
   id: number;
@@ -13,6 +14,7 @@ interface AnswerAttributes {
   totalWeight: number;           // Total weight of the vehicle with which the player is playing
   levelId: number;               // Relation with the Level model
   playerId: number;              // Relation with the Player model
+  teamId: number;
   score: number;                 // The score obtained
 }
 
@@ -57,6 +59,13 @@ export class Answer extends Model<AnswerAttributes> {
 
   @BelongsTo(() => Player)
   player!: Player;
+
+  @ForeignKey(() => Team) // Define the foreign key for Team
+  @Column
+  teamId!: number;
+
+  @BelongsTo(() => Team) // Define the relationship with Team
+  team!: Team;
 
   @Column({ type: DataType.INTEGER })
   score!: number;

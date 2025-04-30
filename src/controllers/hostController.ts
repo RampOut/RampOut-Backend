@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
+import { Host } from "../models/Host";
+import { tokenBlackList } from "../blacklist";
 
 interface CustomRequest extends Request {
   username?: string;
   role?: string;
 }
-import { Host } from "../models/Host";
-import { tokenBlackList } from "../blacklist";
 
 //Muestra los datos de los hosts registrados
 export const getAllHost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {

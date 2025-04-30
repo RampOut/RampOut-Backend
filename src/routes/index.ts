@@ -5,6 +5,7 @@ import comHostRoutes from "./comhostRoutes";
 import hostRoutes from "./hostRoutes"
 import matchRouter from "./matchRoutes";
 import levelRouter from "./levelRoutes";
+import motorRouter from './motorRoutes';
 
 const apiRouter = Router(); 
 
@@ -14,6 +15,7 @@ apiRouter.use('/', comHostRoutes); //Validated
 apiRouter.use('/host', hostRoutes); // Validated
 apiRouter.use('/match', matchRouter); // Validated
 apiRouter.use('/level', levelRouter); 
+apiRouter.use('/motors', motorRouter);
 
 
 // ToDO 
