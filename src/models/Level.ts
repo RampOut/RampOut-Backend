@@ -10,13 +10,13 @@ interface LevelAttributes {
   gravity: number;              // Gravedad en el nivel
   motorId: number[];            // Array de Foreign keys para Motor
   tiresId: number[];            // Array de Foreign keys para Tires
-  chassisId: number[];           // Array de Foreign keys para Chasis
-  matchId: number;      // Foreign key para el Match
-  expectedAnswer: number;
+  chassisId: number[];          // Array de Foreign keys para Chasis
+  matchId: number;              // Foreign key para el Match
+  expectedAnswer: number;       // Respuesta esperada
 }
 
 @Table({
-  tableName: 'levels'
+  tableName: 'levels',
 })
 export class Level extends Model<LevelAttributes> {
   @Column({ type: DataType.FLOAT })
@@ -25,7 +25,7 @@ export class Level extends Model<LevelAttributes> {
   @Column({ type: DataType.TEXT })
   description!: string;  
 
-  @Column({ type: DataType.NUMBER})
+  @Column({ type: DataType.FLOAT }) // Replace NUMBER with FLOAT
   expectedAnswer!: number;
 
   // Relación de uno a muchos para Motor
