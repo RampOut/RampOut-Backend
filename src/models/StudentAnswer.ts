@@ -1,51 +1,63 @@
-import { Table, Column, Model, DataType, ForeignKey, BelongsTo, CreatedAt, UpdatedAt } from 'sequelize-typescript';
-import { Optional } from "sequelize";
-import { Player } from "./Player"; 
-import { Level } from "./Level"; 
+import { Table, Model, Column, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Motor } from './Motor';
+import { Tires } from './Tires';
+import { Chassis } from './Chassis';
+import { Level } from './Level';
+import { Player } from './Player';
 
 interface StudentAnswerAttributes {
   id: number;
-  playerId: number;
-  levelId: number;
-  answer: number;
-  score: number;
-  createdAt: Date;
-  updatedAt: Date;
+  motorId: number;               // Relation with the Motor model
+  tiresId: number;               // Relation with the Tires model
+  chassisId: number;             // Relation with the Chassis model
+  totalWeight: number;           // Total weight of the vehicle with which the player is playing
+  levelId: number;               // Relation with the Level model
+  playerId: number;              // Relation with the Player model
+  score: number;                 // The score obtained
 }
 
-interface StudentAnswerCreationAttributes extends Optional<StudentAnswerAttributes, 'id'> {}
-
 @Table({
-  tableName: 'student_answers', 
-  timestamps: true,  
+  tableName: 'student_answers',
 })
+export class StudentAnswer extends Model<StudentAnswerAttributes> {
+  @ForeignKey(() => Motor)
+  @Column
+  motorId!: number;
 
-export class StudentAnswer extends Model<StudentAnswerAttributes, StudentAnswerCreationAttributes> {
-  
-  @Column({
-    type: DataType.INTEGER.UNSIGNED,
-    autoIncrement: true,
-    primaryKey: true
-  })
-  id!: number;
+  @BelongsTo(() => Motor)
+  motor!: Motor;
 
-  @ForeignKey(() => Player)
-  @Column({ type: DataType.INTEGER.UNSIGNED })
-  playerId!: number;
+  @ForeignKey(() => Tires)
+  @Column
+  tiresId!: number;
+
+  @BelongsTo(() => Tires)
+  tires!: Tires;
+
+  @ForeignKey(() => Chassis)
+  @Column
+  chassisId!: number;
+
+  @BelongsTo(() => Chassis)
+  chassis!: Chassis;
+
+  @Column({ type: DataType.INTEGER })
+  totalWeight!: number;
 
   @ForeignKey(() => Level)
-  @Column({ type: DataType.INTEGER.UNSIGNED })
+  @Column
   levelId!: number;
 
-  @Column({ type: DataType.FLOAT, allowNull: false })
-  answer!: number;
+  @BelongsTo(() => Level)
+  level!: Level;
 
-  @Column({ type: DataType.INTEGER, allowNull: false })
-  score!: number;
+  @ForeignKey(() => Player)
+  @Column
+  playerId!: number;
 
   @BelongsTo(() => Player)
   player!: Player;
 
-  @BelongsTo(() => Level)
-  level!: Level;
+  @Column({ type: DataType.INTEGER })
+  score!: number;
 }

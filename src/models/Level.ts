@@ -1,47 +1,46 @@
 import { Table, Model, Column, DataType, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript';
-import { Optional } from 'sequelize';
+import { Motor } from './Motor';
+import { Tires } from './Tires';
+import { Chassis } from './Chassis';
 import { Match } from './Match';
-import { Team } from "./Team";
-import { Car } from './Car';
-import { table } from "console";
 
 interface LevelAttributes {
-  id: number;
-  name: string;
-  description: string;
-  expectedAnswer: number;
-  gravity: number;
-  matchId: number;
-  clue: string; 
+  id: number;                  // ID del nivel
+  description: string;  
+  gravity: number;              // Gravedad en el nivel
+  motorId: number[];            // Array de Foreign keys para Motor
+  tiresId: number[];            // Array de Foreign keys para Tires
+  chassisId: number[];           // Array de Foreign keys para Chasis
+  matchId: number;              // Foreign key para el Match
 }
 
-
-interface LevelCreationAttributes extends Optional<LevelAttributes, 'id'> {}
-
 @Table({
-  tableName: 'Levels',
+  tableName: 'levels'
 })
+export class Level extends Model<LevelAttributes> {
+  @Column({ type: DataType.FLOAT })
+  gravity!: number;             // Variable para la gravedad
 
-export class Level extends Model<LevelAttributes, LevelCreationAttributes> {
-    @Column({ type: DataType.STRING })
-    name!: string;
+  @Column({ type: DataType.TEXT })
+  description!: string;  
 
-    @Column({ type: DataType.TEXT, allowNull: false })
-    description!: string;
+  // Relación de uno a muchos para Motor
+  @HasMany(() => Motor)
+  motors!: Motor[];
 
-    @Column({ type: DataType.FLOAT, allowNull: false })
-    expectedAnswer!: number;
+  // Relación de uno a muchos para Tires (Llanta)
+  @HasMany(() => Tires)
+  tires!: Tires[];
 
-    @Column({ type: DataType.FLOAT, allowNull: false }) 
-    gravedad!: number;
+  // Relación de uno a muchos para Chasis
+  @HasMany(() => Chassis)
+  chasis!: Chassis[];
 
-    @ForeignKey(() => Match)
-    @Column
-    matchId!: number;
+  // Foreign key para Match
+  @ForeignKey(() => Match)
+  @Column({ type: DataType.INTEGER })
+  matchId!: number;
 
-    @BelongsTo(() => Match, { onDelete: "CASCADE" })
-    match!: Match;
-
-    @HasMany(() => Car)
-    cars!: Car[];
+  @BelongsTo(() => Match, { onDelete: 'CASCADE' })
+  match!: Match;
 }

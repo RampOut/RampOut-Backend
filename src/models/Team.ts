@@ -2,11 +2,14 @@ import { Table, Model, Column, DataType, HasMany, ForeignKey, BelongsTo } from "
 import { Optional } from "sequelize";
 import { Player } from "./Player";
 import { Match } from "./Match";
+import { StudentAnswer } from './StudentAnswer';
 
 interface TeamAttributes {
   id: number;
   scoreTotal: number;
-  scorePerRound?: number[];
+  StudentAnswer?: number[];
+  OrderPlayers?: number[];
+
   //! Falta ===> answersPerRound: answers; 
 }
 
@@ -22,13 +25,16 @@ export class Team extends Model<TeamAttributes, TeamsCreationAtributes> {
   @Column({ type: DataType.INTEGER })
   scoreTotal!: number;
 
-  @Column({ type: DataType.JSON })
-  scorePerRound!: number[];  
-
   @ForeignKey(() => Match)
   @Column
   matchId!: number; 
 
   @BelongsTo(() => Match, { as: "teamMatch"})
   teamMatch!: Match; 
+
+  @HasMany(() => StudentAnswer)
+  tires!: StudentAnswer[];
+
+  @Column({ type: DataType.FLOAT })
+  OrderPlayers!: number; 
 }
