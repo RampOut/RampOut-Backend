@@ -14,8 +14,8 @@ apiRouter.use("/team", teamRouter); // Validated
 apiRouter.use('/', comHostRoutes); //Validated
 apiRouter.use('/host', hostRoutes); // Validated
 apiRouter.use('/match', matchRouter); // Validated
-apiRouter.use('/level', levelRouter);
-apiRouter.use('/', tiresRouter);
+apiRouter.use('/level', levelRouter); // Validated
+apiRouter.use('/tires', tiresRouter); // Validated
 
 
 // ToDO 
