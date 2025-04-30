@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getALLlevels, createlevel, deletelevel, getlevelById, updatelevel } from "../controllers/levelContrller";
+import { getALLlevels, createlevel, deletelevel, getlevelById, updatelevel } from "../controllers/levelController";
 
 const levelRouter:Router = Router(); 
 

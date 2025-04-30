@@ -13,6 +13,20 @@ interface MotorAttributes {
   tableName: 'motors',
 })
 export class Motor extends Model<MotorAttributes> {
+
+  @Column({
+
+    type: DataType.INTEGER,
+    
+    primaryKey: true, // Definir 'id' como clave primaria
+    
+    autoIncrement: true, // Hacer que 'id' sea autoincrementable
+    
+    })
+    
+    id!: number;
+
+    
   @Column({ type: DataType.FLOAT })
   power!: number;
 
@@ -35,3 +49,4 @@ assets!: string[];
     
 
 }
+
