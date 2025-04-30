@@ -41,6 +41,39 @@ export const getHostById = async (req: Request, res: Response, next: NextFunctio
 
 
 // Permite que un host, cree otro host.
+/*
+export const createHost = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { username, password, role } = req.body;
+
+    if (!username || !password) {
+      res.status(400).json({ message: "Username and password are required" });
+      return;
+    }
+
+    if (role !== "admin" && role !== "user") {
+      res.status(400).json({ message: "Role not found" });
+      return;
+    }
+
+    const existingHost = await Host.findOne({ where: { username } });
+    if (existingHost) {
+      res.status(409).json({ message: "Host already exists" });
+      return;
+    }
+
+    const newUser = await Host.create({ username, password, role });
+    res.status(201).json({ message: "User registered successfully", user: newUser });
+    return;
+
+  } catch (error) {
+    console.error("Error during registration:", error);
+    if (!res.headersSent) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+};
+*/
 export const createHost = async (
   req: Request,
   res: Response
@@ -55,6 +88,7 @@ export const createHost = async (
 
     if (role !== "admin" && role !== "user") {
       res.status(400).json({ message: "Role not found" });
+      return;
     }
 
     const existingHost = await Host.findOne({ where: { username } });
@@ -64,7 +98,6 @@ export const createHost = async (
     }
 
     const newUser = await Host.create({ username, password, role });
-
     res
       .status(201)
       .json({ message: "User registered successfully", user: newUser });

@@ -21,6 +21,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction): vo
 
   if (tokenBlackList.includes(token)){
     res.status(401).json({ message: "Invalid token. You must log in again."})
+    return;
   }
 
   try {

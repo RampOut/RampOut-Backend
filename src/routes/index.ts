@@ -8,22 +8,12 @@ import levelRouter from "./levelRoutes";
 
 const apiRouter = Router(); 
 
-<<<<<<< HEAD
-apiRouter.use("/player", playerRouter); 
-apiRouter.use("/team", teamRouter);
-apiRouter.use('/', comHostRoutes);
-apiRouter.use('/host', hostRoutes);
-apiRouter.get('/hello', (req:Request, res:Response)=> {
-    res.send("Hello there")
-});
-=======
 apiRouter.use("/player", playerRouter); //Validated 
 apiRouter.use("/team", teamRouter); // Validated
 apiRouter.use('/', comHostRoutes); //Validated
 apiRouter.use('/host', hostRoutes); // Validated
 apiRouter.use('/match', matchRouter); // Validated
 apiRouter.use('/level', levelRouter); 
->>>>>>> 544f194a7f3bf5517327ff0aa1e243f4e922a1ce
 
 
 // ToDO 
