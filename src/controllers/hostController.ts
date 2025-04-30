@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
+import { Host } from "../models/Host";
+import { tokenBlackList } from "../blacklist";
 
 interface CustomRequest extends Request {
   username?: string;
   role?: string;
 }
-import { Host } from "../models/Host";
-import { tokenBlackList } from "../blacklist";
 
 //Muestra los datos de los hosts registrados
 export const getAllHost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -112,7 +112,7 @@ export const createHostAdminOnce = async (
 // Unicamente dice que tiene acceso.
 export const getAccess = (req: CustomRequest, res: Response): void => {
   const hasAccess = !!req.username && !!req.role;
-  res.status(200).json({ hasAccess });
+  res.status(200).json({ acceso: hasAccess, role:req.role });
 };
 
 // Permite modificar la contraseña del propio host.

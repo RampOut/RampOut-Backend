@@ -5,15 +5,19 @@ import comHostRoutes from "./comhostRoutes";
 import hostRoutes from "./hostRoutes"
 import matchRouter from "./matchRoutes";
 import levelRouter from "./levelRoutes";
+import motorRouter from './motorRoutes';
+import tiresRouter from "./tiresRoutes";
 
 const apiRouter = Router(); 
 
 apiRouter.use("/player", playerRouter); //Validated 
 apiRouter.use("/team", teamRouter); // Validated
-apiRouter.use('/', comHostRoutes); //Validated
-apiRouter.use('/host', hostRoutes); // Validated
+apiRouter.use('/', comHostRoutes); // Verificated by TulKasTer
+apiRouter.use('/host', hostRoutes); // Verificated by TulKasTer
 apiRouter.use('/match', matchRouter); // Validated
-apiRouter.use('/level', levelRouter); 
+apiRouter.use('/level', levelRouter); // Verificated by TulKasTer
+apiRouter.use('/motors', motorRouter);
+apiRouter.use('/tires', tiresRouter); // Verificated by TulKasTer
 
 
 // ToDO 

@@ -10,6 +10,7 @@ interface MatchAttributes {
     teams?: Team[]; 
     hostId: Host; 
     levels?: Level[]; 
+    actualLevel?: string; 
 }
 interface MatchCreationAttributes extends Optional<MatchAttributes, 'id'>{}
 
@@ -29,4 +30,7 @@ export class Match extends Model<MatchAttributes, MatchCreationAttributes> {
 
     @HasMany(() => Level)
     levels?: Level[]; 
+
+    @Column({ type: DataType.FLOAT })
+    actualLevel?: string; 
 }
