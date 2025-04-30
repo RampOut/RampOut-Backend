@@ -26,15 +26,15 @@ export class Level extends Model<LevelAttributes> {
 
   // Relación de uno a muchos para Motor
   @HasMany(() => Motor)
-  motors!: Motor[];
+  motor?: Motor[];
 
   // Relación de uno a muchos para Tires (Llanta)
   @HasMany(() => Tires)
-  tires!: Tires[];
+  tires?: Tires[];
 
   // Relación de uno a muchos para Chasis
   @HasMany(() => Chassis)
-  chasis!: Chassis[];
+  chassis?: Chassis[];
 
   // Foreign key para Match
   @ForeignKey(() => Match)
