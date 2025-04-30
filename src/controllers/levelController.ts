@@ -1,6 +1,9 @@
 import { RequestHandler, Request,Response } from "express";
 import { Level } from "../models/Level";
 import { Json } from "sequelize/types/utils";
+import sequelize from "../connection/connection";
+import { data } from "jquery";
+import { Transaction } from "sequelize";
 
 
 export const createlevel: RequestHandler = (req: Request, res: Response) => {
@@ -72,14 +75,26 @@ export const getlevelById: RequestHandler = (req: Request, res: Response) =>{
 
 }
 
-export const updatelevel = async (req: Request, res: Response) => {
-  const levelId = parseInt(req.params.id);
+export const setLevelsPresets = async (req: Request, res: Response) => {
+  let transaction; // <-- Declaración aquí, fuera del try
   try {
-    await Level.update(req.body, { where: { id: req.params.id } });
-    res.json({ message: 'level updated' });
-  } catch (err) {
-    res.status(500).json({ error: `Error updating level with id: ${req.params.id}`});
-    console.log(`Error updatinglevel with id: ${req.params.id}`)
+    const { levels } = req.body; 
+    transaction = await sequelize.transaction(); 
+
+    for (let level of levels) { 
+      await Level.update({ ...level }, { where: { id: level.id }, transaction });
+    }
+
+    await transaction.commit(); 
+    res.json({ status: "success", message: 'Levels updated', payload: levels });
+
+  } catch (err: any) {
+    if (transaction) await transaction.rollback(); // <-- Solo si se llegó a crear
+    res.status(500).json({
+      status: "error",
+      message: "Something happened while updating the levels. " + err.message
+    });
+    console.error("Error setting level presets:", err);
   }
 };
 

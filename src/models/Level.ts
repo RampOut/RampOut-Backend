@@ -29,15 +29,15 @@ export class Level extends Model<LevelAttributes> {
   expectedAnswer!: number;
 
   // Relación de uno a muchos para Motor
-  @HasMany(() => Motor)
+  @Column({ type: DataType.JSON })
   motors?: Motor[];
 
   // Relación de uno a muchos para Tires (Llanta)
-  @HasMany(() => Tires)
+  @Column({ type: DataType.JSON })
   tires?: Tires[];
 
   // Relación de uno a muchos para Chasis
-  @HasMany(() => Chassis)
+  @Column({ type: DataType.JSON })
   chassis?: Chassis[];
 
   // Foreign key para Match

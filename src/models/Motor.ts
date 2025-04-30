@@ -5,7 +5,6 @@ interface MotorAttributes {
   power: number;
   rpmMax: number;
   weight: number;
-  levelId?: number; 
   assets: string[];  
 }
 
@@ -36,14 +35,8 @@ export class Motor extends Model<MotorAttributes> {
   @Column({ type: DataType.FLOAT })
   weight!: number;
 
-    @ForeignKey(()=> Level)
-    @Column
-    levelId?: number; 
-    
-    @BelongsTo(() => Level)
-    level?: Level; 
 
-@Column({ type: DataType.ARRAY(DataType.STRING) })
+@Column({ type: DataType.JSON})
 assets!: string[];
 
     

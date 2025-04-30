@@ -31,13 +31,6 @@ export class Chassis extends Model<ChassisAttributes> {
   @Column({ type: DataType.JSON })
   assets!: string[];
   
-  @ForeignKey(()=> Level)
-  @Column
-  levelId!: number; 
-  
-  @BelongsTo(() => Level)
-  level!: Level; 
-  
 }
 
 

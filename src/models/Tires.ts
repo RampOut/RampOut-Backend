@@ -24,11 +24,4 @@ export class Tires extends Model<TiresAttributes> {
 
   @Column({ type: DataType.JSON})
   assets!: string[];
-
-  @ForeignKey(()=> Level)
-  @Column
-  levelId!: number; 
-  
-  @BelongsTo(() => Level)
-  level!: Level; 
 }
