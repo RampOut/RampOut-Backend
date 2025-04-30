@@ -112,7 +112,7 @@ export const createHostAdminOnce = async (
 // Unicamente dice que tiene acceso.
 export const getAccess = (req: CustomRequest, res: Response): void => {
   const hasAccess = !!req.username && !!req.role;
-  res.status(200).json({ hasAccess });
+  res.status(200).json({ acceso: hasAccess, role:req.role });
 };
 
 // Permite modificar la contraseña del propio host.

@@ -11,10 +11,5 @@
     "forceConsistentCasingInFileNames": true, 
     "skipLibCheck": true   
   },
-<<<<<<< HEAD
-  /*"include": ["src", "types"]*/
-=======
   "include": ["src", "types", "index.ts"]
->>>>>>> 544f194a7f3bf5517327ff0aa1e243f4e922a1ce
-
 }
