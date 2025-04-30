@@ -1,4 +1,6 @@
-import { Table, Model, Column, DataType } from 'sequelize-typescript';
+import { Table, Model, Column, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Level } from './Level';
+import { Match } from './Match';
 
 interface MotorAttributes {
   power: number;  // Potencia en caballos de fuerza
@@ -20,6 +22,13 @@ export class Motor extends Model<MotorAttributes> {
   @Column({ type: DataType.FLOAT })
   weight!: number;
 
-  @Column({ type: DataType.ARRAY(DataType.STRING) })
+  @Column({ type: DataType.JSON})
   assets!: string[];
+
+  @ForeignKey(()=> Level)
+  @Column
+  levelId!: number; 
+
+  @BelongsTo(() => Level)
+  level!: Level; 
 }
