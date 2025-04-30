@@ -11,7 +11,8 @@ interface LevelAttributes {
   motorId: number[];            // Array de Foreign keys para Motor
   tiresId: number[];            // Array de Foreign keys para Tires
   chassisId: number[];           // Array de Foreign keys para Chasis
-  matchId: number;              // Foreign key para el Match
+  matchId: number;      // Foreign key para el Match
+  expectedAnswer: number;
 }
 
 @Table({
@@ -23,6 +24,9 @@ export class Level extends Model<LevelAttributes> {
 
   @Column({ type: DataType.TEXT })
   description!: string;  
+
+  @Column({ type: DataType.NUMBER})
+  expectedAnswer!: number;
 
   // Relación de uno a muchos para Motor
   @HasMany(() => Motor)

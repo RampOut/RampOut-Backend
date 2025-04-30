@@ -5,6 +5,7 @@ import comHostRoutes from "./comhostRoutes";
 import hostRoutes from "./hostRoutes"
 import matchRouter from "./matchRoutes";
 import levelRouter from "./levelRoutes";
+import tiresRouter from "./tiresRoutes";
 
 const apiRouter = Router(); 
 
@@ -13,7 +14,8 @@ apiRouter.use("/team", teamRouter); // Validated
 apiRouter.use('/', comHostRoutes); //Validated
 apiRouter.use('/host', hostRoutes); // Validated
 apiRouter.use('/match', matchRouter); // Validated
-apiRouter.use('/level', levelRouter); 
+apiRouter.use('/level', levelRouter);
+apiRouter.use('/', tiresRouter);
 
 
 // ToDO 
