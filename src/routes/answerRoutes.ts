@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getALLAnswers, createAnswer, deleteAnswer, getAnswerById, updateAnswer, endRound } from "../controllers/answerController";
+import { getALLAnswers, createAnswer, deleteAnswer, getAnswerById, updateAnswer ,endRound} from "../controllers/answerController";
 
 const answerRouter:Router = Router(); 
 
@@ -11,7 +11,6 @@ answerRouter.patch('/:id', updateAnswer);
 answerRouter.patch('/levelend/:levelId', endRound);
 
 export default answerRouter; 
-
 
 
 

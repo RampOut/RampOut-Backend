@@ -9,6 +9,7 @@ import motorRouter from './motorRoutes';
 import tiresRouter from "./tiresRoutes";
 import answerRouter from "./answerRoutes";
 import chassisRouter from "./chassisRoutes";
+import historialRouter from "./historialRoutes";
 
 const apiRouter = Router(); 
 
@@ -22,6 +23,7 @@ apiRouter.use('/motors', motorRouter);
 apiRouter.use('/tires', tiresRouter); // Verificated by TulKasTer
 apiRouter.use('/answers', answerRouter);
 apiRouter.use('/chassis', chassisRouter);
+apiRouter.use('/historial', historialRouter);
 
 
 

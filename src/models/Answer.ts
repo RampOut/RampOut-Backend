@@ -7,7 +7,7 @@ import { Player } from './Player';
 import { Team } from './Team';
 
 export interface AnswerAttributes {
-  id: number;  
+  id: number;
   playerId: number;
   levelId: number;
   teamId: number;
@@ -16,8 +16,8 @@ export interface AnswerAttributes {
   tiresId?: number;  // Opcional
   chassisId?: number;  // Opcional
   totalWeight?: number;  // Opcional
+  scorePerRound?: number[];  // Nueva columna para almacenar puntajes por ronda
 }
-
 
 @Table({
   tableName: 'student_answers',
@@ -70,4 +70,10 @@ export class Answer extends Model<AnswerAttributes> {
 
   @Column({ type: DataType.INTEGER })
   score!: number;
+
+  @Column({
+    type: DataType.ARRAY(DataType.INTEGER), // Aseguramos que sea un arreglo de números
+    allowNull: true,
+  })
+  scorePerRound?: number[];
 }
