@@ -6,16 +6,17 @@ import { Level } from './Level';
 import { Player } from './Player';
 import { Team } from './Team';
 
-interface AnswerAttributes {
+export interface AnswerAttributes {
   id: number;
-  motorId: number;               // Relation with the Motor model
-  tiresId: number;               // Relation with the Tires model
-  chassisId: number;             // Relation with the Chassis model
-  totalWeight: number;           // Total weight of the vehicle with which the player is playing
-  levelId: number;               // Relation with the Level model
-  playerId: number;              // Relation with the Player model
+  playerId: number;
+  levelId: number;
   teamId: number;
-  score: number;                 // The score obtained
+  score: number;
+  motorId?: number;  // Opcional
+  tiresId?: number;  // Opcional
+  chassisId?: number;  // Opcional
+  totalWeight?: number;  // Opcional
+  scorePerRound?: number[];  // Nueva columna para almacenar puntajes por ronda
 }
 
 @Table({
@@ -24,27 +25,27 @@ interface AnswerAttributes {
 export class Answer extends Model<AnswerAttributes> {
   @ForeignKey(() => Motor)
   @Column
-  motorId!: number;
+  motorId?: number;
 
   @BelongsTo(() => Motor)
   motor!: Motor;
 
   @ForeignKey(() => Tires)
   @Column
-  tiresId!: number;
+  tiresId?: number;
 
   @BelongsTo(() => Tires)
   tires!: Tires;
 
   @ForeignKey(() => Chassis)
   @Column
-  chassisId!: number;
+  chassisId?: number;
 
   @BelongsTo(() => Chassis)
   chassis!: Chassis;
 
   @Column({ type: DataType.INTEGER })
-  totalWeight!: number;
+  totalWeight?: number;
 
   @ForeignKey(() => Level)
   @Column
@@ -69,4 +70,10 @@ export class Answer extends Model<AnswerAttributes> {
 
   @Column({ type: DataType.INTEGER })
   score!: number;
+
+  @Column({
+    type: DataType.ARRAY(DataType.INTEGER), // Aseguramos que sea un arreglo de números
+    allowNull: true,
+  })
+  scorePerRound?: number[];
 }

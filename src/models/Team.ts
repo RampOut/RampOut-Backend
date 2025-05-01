@@ -8,7 +8,7 @@ interface TeamAttributes {
   name: string;
   scoreTotal: number;
   scorePerRound?: number[];
-  //! Falta ===> answersPerRound: answers; 
+
 }
 
 interface TeamsCreationAtributes extends Optional<TeamAttributes, 'id'>{}
@@ -28,6 +28,7 @@ export class Team extends Model<TeamAttributes, TeamsCreationAtributes> {
 
   @Column({ type: DataType.JSON })
   scorePerRound!: number[];  
+
 
   @ForeignKey(() => Match)
   @Column

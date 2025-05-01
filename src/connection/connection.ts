@@ -9,6 +9,7 @@ import { Answer } from "../models/Answer";
 import { Motor } from "../models/Motor";
 import { Tires } from '../models/Tires'; 
 import { Chassis } from '../models/Chassis'; 
+import { Historial } from '../models/Historial';
 
 // Permite maneja variables de entorno, las cuales permiten la introduccion de credenciales
 // Sin que estas esten plasmadas como tal en el codigo fuente.
@@ -21,7 +22,7 @@ const sequelize = new Sequelize({
   database: process.env.DB_NAME || "rampout_db",
   username: process.env.DB_USER || "root",
   password: process.env.DB_PASSWORD || "",//! pon tu contraseña
-  models: [Host, Player, Team, Level, Chassis, Match, Tires, Motor, Answer],
+  models: [Host, Player, Team, Level, Chassis, Match, Tires, Motor, Answer, Historial],
 });
 
 export default sequelize;
