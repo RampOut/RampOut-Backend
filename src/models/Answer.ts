@@ -7,7 +7,7 @@ import { Player } from './Player';
 import { Team } from './Team';
 
 interface AnswerAttributes {
-  id: number;
+  id?: number;
   motorId: number;               // Relation with the Motor model
   tiresId: number;               // Relation with the Tires model
   chassisId: number;             // Relation with the Chassis model
