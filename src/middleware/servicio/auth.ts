@@ -24,11 +24,23 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction): vo
   }
 
   try {
-    const payload = jwt.verify(token, secretKey) as { username: string };
-    req.username = payload.username; 
+    const payload = jwt.verify(token, secretKey) as { username: string, role: string };
+    req.username = payload.username;
+    req.role = payload.role;
     next(); 
   } catch (error) {
     res.status(403).json({ message: "Token not valid" });
     return;
   }
+};
+
+// Funcion con la que se verifica el role del Host
+export const authorizeRole = (role: string) => {
+  return (req: Request, res: Response, next: NextFunction): void => {
+      if (req.role !== role) {
+          res.status(403).json({ message: "Forbidden" });
+      } else {
+          next();
+      }
+  };
 };

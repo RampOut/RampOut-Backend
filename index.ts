@@ -1,15 +1,12 @@
-// Se importan dependencias necesarias
-import express, { Request, Response, NextFunction } from "express";
-import morgan from "morgan";
-import sequelize from "./src/connection/connection";
-import cors from "cors";
-import apiRouter from "./src/routes/index"
+import express, { Request, Response, NextFunction } from 'express';
+import morgan from 'morgan';
+import sequelize from './src/connection/connection'; 
+import cors from 'cors';
+import apiRouter from './src/routes/index'; 
 
-// Definicion de constantes
 const app = express();
-const port = 3000;
+const port = 3000;  
 
-// Se establecen como variables globales, para el buen manejo de las variables en todo el proyecto.
 declare global {
   namespace Express {
     interface Request {
@@ -24,26 +21,29 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api', apiRouter)
+// Rutas
+app.use('/api', apiRouter);  
 
-// Se inicializa sequilize
+// Inicializar sequelize
 const connectedSyncDB = async () => {
   try {
+    // Autenticación con la base de datos
     await sequelize.authenticate().then(() => {
       console.log("DB connected");
     });
 
+    // Sincronizar los modelos con la base de datos
     await sequelize.sync().then(() => {
       console.log("Models synchronized");
-    });
-
-    // Iniciar el servidor
-    app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
     });
   } catch (error: unknown) {
     console.error("DB connection or synchronization error:", error);
   }
 };
 
-connectedSyncDB();
+// Iniciar el servidor
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
+
+connectedSyncDB();  
