@@ -1,11 +1,13 @@
-import { Table, Model, Column, DataType , ForeignKey , BelongsTo } from 'sequelize-typescript';
+import { Table, Model, Column, DataType , HasMany , BelongsTo } from 'sequelize-typescript';
 import { Level } from './Level';
+import { Answer } from './Answer';
 
 interface MotorAttributes {
   power: number;
   rpmMax: number;
   weight: number;
-  assets: string[];  
+  assets?: string[];  
+  answers?: Answer[]
 }
 
 @Table({
@@ -16,11 +18,8 @@ export class Motor extends Model<MotorAttributes> {
   @Column({
 
     type: DataType.INTEGER,
-    
-    primaryKey: true, // Definir 'id' como clave primaria
-    
-    autoIncrement: true, // Hacer que 'id' sea autoincrementable
-    
+    primaryKey: true, 
+    autoIncrement: true, 
     })
     
     id!: number;
@@ -37,7 +36,10 @@ export class Motor extends Model<MotorAttributes> {
 
 
 @Column({ type: DataType.JSON})
-assets!: string[];
+assets?: string[];
+
+@HasMany(() => Answer)
+answers?: Answer[];
 
     
 

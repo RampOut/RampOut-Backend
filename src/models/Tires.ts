@@ -1,10 +1,13 @@
-import { Table, Model, Column, DataType, ForeignKey, BelongsTo, PrimaryKey } from 'sequelize-typescript';
+import { Table, Model, Column, DataType, HasMany, BelongsTo, PrimaryKey } from 'sequelize-typescript';
 import { Level } from './Level';
+import { Answer } from './Answer';
+
 interface TiresAttributes {
   id: number;         // id de llanta.
   diameter: number;   // diametro en cm
   weight: number;       // peso en kg
-  assets: string[];    //! la imagen
+  assets?: string[];    //! la imagen
+  answers?: Answer[] 
 }
 
 @Table({
@@ -23,5 +26,9 @@ export class Tires extends Model<TiresAttributes> {
   weight!: number;
 
   @Column({ type: DataType.JSON})
-  assets!: string[];
+  assets?: string[];
+
+    @HasMany(() => Answer)
+  answers?: Answer[];
+  
 }

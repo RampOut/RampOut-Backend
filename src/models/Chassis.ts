@@ -1,6 +1,7 @@
-import { Table, Model, Column, DataType, ForeignKey, BelongsTo , PrimaryKey, AutoIncrement} from 'sequelize-typescript';
+import { Table, Model, Column, DataType, HasMany, BelongsTo , PrimaryKey, AutoIncrement} from 'sequelize-typescript';
 import { Level } from './Level';
 import { Optional } from 'sequelize';
+import { Answer } from './Answer';
 
 interface ChassisAttributes {
   id: number; 
@@ -8,7 +9,9 @@ interface ChassisAttributes {
   distanceBetweenWheels: number;  // Distancia entre llantas en cm
   height: number;         // Dimensiones [width, height]
   width: number; 
-  assets: string[];          //! la imagen
+  assets?: string[];   
+  answers?: Answer[]       //! la imagen
+
 }
 
 interface ChassisCreationAttributes extends Optional<ChassisAttributes, 'id'>{}
@@ -34,7 +37,15 @@ export class Chassis extends Model<ChassisAttributes> {
   width!: number;
 
   @Column({ type: DataType.JSON })
-  assets!: string[];
+  assets?: string[];
+
+  @HasMany(() => Answer)
+answer?: Answer[];
+
+@Column({ type: DataType.INTEGER })
+weight!: number;
+
+
   
 }
 

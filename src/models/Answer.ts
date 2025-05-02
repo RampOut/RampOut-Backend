@@ -17,6 +17,7 @@ export interface AnswerAttributes {
   chassisId?: number;  // Opcional
   totalWeight?: number;  // Opcional
   scorePerRound?: number[];  // Nueva columna para almacenar puntajes por ronda
+  timeToScore: number;
 }
 
 @Table({
@@ -72,8 +73,13 @@ export class Answer extends Model<AnswerAttributes> {
   score!: number;
 
   @Column({
-    type: DataType.ARRAY(DataType.INTEGER), // Aseguramos que sea un arreglo de números
+    type: DataType.JSON,
     allowNull: true,
   })
   scorePerRound?: number[];
+
+
+  @Column({ type: DataType.INTEGER })
+  timeToScore!: number;
+  
 }
