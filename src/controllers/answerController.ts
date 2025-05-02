@@ -1,17 +1,12 @@
 import { RequestHandler, Request,Response } from "express";
 import { Answer } from "../models/Answer";
 import sequelize from "../connection/connection";
-import { Json } from "sequelize/types/utils";
-import { Player } from '../models/Player';
-import { Match } from '../models/Match';
-import { Level } from '../models/Level';
 import { Motor } from '../models/Motor';
 import { Tires } from '../models/Tires';
 import { Chassis } from '../models/Chassis';
 import { Team } from '../models/Team';
-import { updateTeam } from './teamController';
-
-
+import { Level } from '../models/Level';
+import { Player } from '../models/Player';
 
 export const createAnswer: RequestHandler = (req: Request, res: Response) => {
   if (!req.body) {

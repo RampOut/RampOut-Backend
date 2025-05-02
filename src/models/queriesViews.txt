@@ -1,0 +1,18 @@
+create VIEW rankings AS
+SELECT
+  matricula,
+  COUNT(*) AS games_played,
+  SUM(score) AS total_score
+FROM rampout.players
+GROUP BY matricula
+ORDER BY total_score DESC;
+
+create view daily_ranking AS 
+SELECT 
+	matricula, 
+    COUNT(*) AS games_played, 
+    SUM(score) AS total_score
+FROM rampout.players
+WHERE DATE(createdAt) = CURDATE()
+GROUP BY matricula
+ORDER BY total_score DESC;
