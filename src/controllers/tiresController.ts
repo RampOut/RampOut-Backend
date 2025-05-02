@@ -32,7 +32,6 @@ export const createTires: RequestHandler = (req: Request, res: Response) => {
     });
 }
 
-// Devuelve todos los niveles
 export const getAllTires: RequestHandler = (req: Request, res: Response) => {
     Tires.findAll()
     .then((data: Tires[]) => {
@@ -51,7 +50,7 @@ export const getAllTires: RequestHandler = (req: Request, res: Response) => {
     });
 }
 
-// Obtiene los datos de una llanta con un cierto id
+// Obtiene los datos de una llanta con un id
 export const getTireById: RequestHandler = (req: Request, res: Response) => {
     Tires.findByPk(req.params.id)
     .then((data: Tires | null) =>{

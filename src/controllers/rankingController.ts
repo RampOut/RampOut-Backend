@@ -1,4 +1,3 @@
-// src/controllers/rankingController.ts
 import { Request, Response } from 'express';
 import sequelize  from "../connection/connection";
 

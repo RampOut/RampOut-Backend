@@ -10,18 +10,25 @@ import { Motor } from "../models/Motor";
 import { Tires } from '../models/Tires'; 
 import { Chassis } from '../models/Chassis'; 
 import { Historial } from '../models/Historial';
+import { DataBase } from "../config";
 
 // Permite maneja variables de entorno, las cuales permiten la introduccion de credenciales
 // Sin que estas esten plasmadas como tal en el codigo fuente.
 dotenv.config();
 
 // Se establecen los credenciales para el utilizamiento del sequelize.
-const sequelize = new Sequelize({
+if (!DataBase) {
+  throw new Error("Database connection string is not defined in the environment variables.");
+}
+
+const sequelize = new Sequelize(DataBase, {
   dialect: "mysql",
-  host: process.env.DB_HOST || "localhost",
-  database: process.env.DB_NAME || "rampout_db",
-  username: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "",//! pon tu contraseña
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  },
   models: [Host, Player, Team, Level, Chassis, Match, Tires, Motor, Answer, Historial],
 });
 

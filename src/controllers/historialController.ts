@@ -1,4 +1,3 @@
-// src/controllers/historialController.ts
 import { Request, Response } from 'express';
 import { Historial } from '../models/Historial';
 import { Team } from '../models/Team';
