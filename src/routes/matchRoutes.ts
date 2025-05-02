@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { getALLMatches, getMatchById, deleteMatch, updateMatch, createMatchWithTeams } from "../controllers/matchController";
-import { get } from "jquery";
 
 const matchRouter:Router = Router(); 
 

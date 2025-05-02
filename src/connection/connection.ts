@@ -21,7 +21,7 @@ const sequelize = new Sequelize({
   host: process.env.DB_HOST || "localhost",
   database: process.env.DB_NAME || "rampout_db",
   username: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "",//! pon tu contraseña
+  password: process.env.DB_PASSWORD || "",
   models: [Host, Player, Team, Level, Chassis, Match, Tires, Motor, Answer, Historial],
 });
 

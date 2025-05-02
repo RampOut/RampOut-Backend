@@ -1,7 +1,5 @@
 import { RequestHandler, Request,Response } from "express";
 import { Chassis } from "../models/Chassis";
-import { Json } from "sequelize/types/utils";
-
 
 export const createChassis: RequestHandler = (req: Request, res: Response) => {
   if (!req.body) {
@@ -35,7 +33,6 @@ export const createChassis: RequestHandler = (req: Request, res: Response) => {
 
 
 export const getALLChassiss: RequestHandler = (req: Request, res: Response) =>{
-      //Calling the Sequelize findAll method. This is the same that a SELECT * FROM PRODUCT in a SQL query.
    Chassis.findAll()
    .then((data: Chassis[]) => {
       return res.status(200).json({
@@ -97,5 +94,3 @@ export const deleteChassis: RequestHandler = async(req: Request, res: Response) 
         return;
     }   
 }
-
-

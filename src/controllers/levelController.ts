@@ -1,10 +1,6 @@
 import { RequestHandler, Request,Response } from "express";
 import { Level } from "../models/Level";
-import { Json } from "sequelize/types/utils";
 import sequelize from "../connection/connection";
-import { data } from "jquery";
-import { Transaction } from "sequelize";
-
 
 export const createlevel: RequestHandler = (req: Request, res: Response) => {
   if (!req.body) {
@@ -38,7 +34,6 @@ export const createlevel: RequestHandler = (req: Request, res: Response) => {
 
 
 export const getALLlevels: RequestHandler = (req: Request, res: Response) =>{
-      //Calling the Sequelize findAll method. This is the same that a SELECT * FROM PRODUCT in a SQL query.
    Level.findAll()
    .then((data: Level[]) => {
       return res.status(200).json({

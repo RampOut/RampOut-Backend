@@ -1,7 +1,5 @@
 import { RequestHandler, Request,Response } from "express";
 import { Team } from "../models/Team";
-import { Json } from "sequelize/types/utils";
-
 
 export const createTeam: RequestHandler = (req: Request, res: Response) => {
   if (!req.body) {
@@ -35,7 +33,6 @@ export const createTeam: RequestHandler = (req: Request, res: Response) => {
 
 
 export const getALLTeams: RequestHandler = (req: Request, res: Response) =>{
-      //Calling the Sequelize findAll method. This is the same that a SELECT * FROM PRODUCT in a SQL query.
    Team.findAll()
    .then((data: Team[]) => {
       return res.status(200).json({
@@ -99,10 +96,10 @@ export const deleteTeam: RequestHandler = async(req: Request, res: Response) =>{
 }
 
 export const updateTeamScore: RequestHandler = async (req: Request, res: Response): Promise<void> => {
-  const { scoreTotal } = req.body; // Extract scoreTotal from the request body
-  const teamScore = parseInt(scoreTotal, 10); // Convert scoreTotal to a number
+  const { scoreTotal } = req.body; // Extraer el scoretotal del request body
+  const teamScore = parseInt(scoreTotal, 10); 
 
-  // Validate that scoreTotal is a valid number
+  // validarlo
   if (isNaN(teamScore)) {
     res.status(400).json({
       status: "error",
