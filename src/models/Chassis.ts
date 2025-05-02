@@ -25,9 +25,6 @@ export class Chassis extends Model<ChassisAttributes> {
   id!: number;
 
   @Column({ type: DataType.FLOAT })
-  peso!: number;
-
-  @Column({ type: DataType.FLOAT })
   distanceBetweenWheels!: number;
 
   @Column({ type: DataType.FLOAT})
