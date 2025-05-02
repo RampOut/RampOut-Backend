@@ -1,7 +1,5 @@
 import { RequestHandler, Request,Response } from "express";
 import { Player } from "../models/Player";
-import { Json } from "sequelize/types/utils";
-
 
 // crear un jugador, con un idtemporal
 export const createPlayer: RequestHandler = (req: Request, res: Response) => {
@@ -90,7 +88,6 @@ export const getPlayerById: RequestHandler = (req: Request, res: Response) => {
     });
 };
 
-
 export const updatePlayer = async (req: Request, res: Response) => {
   const PlayerId = parseInt(req.params.id);
   try {
@@ -101,7 +98,6 @@ export const updatePlayer = async (req: Request, res: Response) => {
     console.log(`Error updatingPlayer with id: ${req.params.id}`)
   }
 };
-
 
 export const deletePlayer: RequestHandler = async (req: Request, res: Response): Promise<any> => {
   const playerId = req.params.id;
