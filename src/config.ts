@@ -10,6 +10,8 @@ if (!process.env.JWT_SECRET) {
 
 export const secretKey = process.env.JWT_SECRET;
 
+export const DataBase = process.env.RampOut_DB;
+
 // Se declaran las variables globales para el buen funcionamiento de Host
 declare global {
   namespace Express {
