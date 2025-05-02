@@ -36,7 +36,7 @@ export const createToken = async (
     }
 
     // Se crea el token, mediante la firma con jsonwebtoken
-    const token = jwt.sign({ username: user.username }, secretKey, {
+    const token = jwt.sign({ username: user.username, role: user.role }, secretKey, {
       expiresIn: "2h",
     }); 
     res.status(200).json({ token });
