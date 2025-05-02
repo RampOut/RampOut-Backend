@@ -6,10 +6,14 @@ import { Level } from './Level';
 import { Player } from './Player';
 import { Team } from './Team';
 
-export interface AnswerAttributes {
-  id: number;
-  playerId: number;
-  levelId: number;
+interface AnswerAttributes {
+  id?: number;
+  motorId: number;               // Relation with the Motor model
+  tiresId: number;               // Relation with the Tires model
+  chassisId: number;             // Relation with the Chassis model
+  totalWeight: number;           // Total weight of the vehicle with which the player is playing
+  levelId: number;               // Relation with the Level model
+  playerId: number;              // Relation with the Player model
   teamId: number;
   score: number;
   motorId?: number;  // Opcional
