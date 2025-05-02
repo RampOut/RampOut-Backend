@@ -5,25 +5,32 @@ import sequelize  from "../connection/connection";
 import { Team } from "../models/Team";
 import { Player } from "../models/Player";
 import { Level } from "../models/Level";
+import { Answer } from "../models/Answer";
+import { Motor } from "../models/Motor";
+import { Tires } from "../models/Tires";
+import { Chassis } from "../models/Chassis";
+
 
 //Metodo para iniciar una partida, 
-export const createMatchWithTeams: RequestHandler = async (req: Request, res: Response) => {
-  //Segmentamos las partes del request
-  const { hostId, teams, players, levels } = req.body;
-  //Iniciamos la transacción para poder realizar todos los cambios sin conflictos
+export const createMatchWithTeams: RequestHandler = async (req: Request, res: Response): Promise<void> => {
+  const { hostId, teams, levels } = req.body;
+
+  if (!hostId || !Array.isArray(teams) || !Array.isArray(levels)) {
+    res.status(400).json({
+      status: "error",
+      message: "Missing or invalid required fields: hostId, teams, levels",
+    });
+    return;
+  }
+
   const transaction = await sequelize.transaction();
 
   try {
-    //Creamos un match con el id del host. 
-    const match = await Match.create( { hostId } , { transaction });
+    const match = await Match.create({ hostId }, { transaction });
 
-    /*Mediante promesas, mapeamos todos los equipos que vienen en la petición
-    usando el id del match (para evitar conflictos con las foreign key es que se usa 
-    una transacción) y regresamos en la última linea los ids temporales de los equipos para referenciarlos bien. 
-    */
     const teamsWithMatch = await Promise.all(
-      teams.map(async (teamData: any) => {
-        const { tempId, ...teamFields } = teamData;  
+      (teams || []).map(async (teamData: any) => {
+        const { tempId, ...teamFields } = teamData;
         const team = await Team.create(
           { ...teamFields, matchId: match.id },
           { transaction }
@@ -32,58 +39,30 @@ export const createMatchWithTeams: RequestHandler = async (req: Request, res: Re
       })
     );
 
-    /*Creamos el array de jugadores a crear, y procedemos a iterar sobre los equipos para asignarles a estos
-    los integrantes que les corresponden con la id de la db. 
-    */
-    const createdPlayers: Player[] = [];
-    for (const team of teamsWithMatch) {
-      const teamPlayers = players.filter((p: any) => p.teamTempId === team.tempId);
-      const playersWithTeamId = teamPlayers.map((p: any) => ({
-        matricula: p.matricula,
-        teamId: team.id,
-      }));
-
-      //Aparte de validar que estamos haciendo algo, se crea con el metodo bulkCreate porque esto permite 
-      //generar multiples registros simultaneamente
-      
-      if (playersWithTeamId.length > 0) {
-        const created = await Player.bulkCreate(playersWithTeamId, { transaction });
-        createdPlayers.push(...created);
-      }
-    }
-
-    //Y finalmente, tenemos los niveles que se resuelven con promesas y les pegamos el id del match a los que sus resultados
-    //serán referenciados. 
     const createdLevels = await Promise.all(
-  levels.map((level:any) => 
-    Level.create({ ...level, matchId: match.id }, { transaction })
-  )
-  );
-     
-    //Una vez todas las promesas se resuelven, se hace commit y se crea un match/lobby con todos sus atributos mediante
-    //una sola petición bien armada. (En el payload es buena practica manear los estados de todas las entidades)
+      (levels || []).map((level: any) =>
+        Level.create({ ...level, matchId: match.id }, { transaction })
+      )
+    );
+
     await transaction.commit();
 
     res.status(201).json({
       status: "success",
-      message: "Match, teams and players created",
+      message: "Match, teams, and levels created successfully",
       payload: {
         match,
-        teams: teamsWithMatch.map(({ tempId, ...rest }) => rest), 
-        players: createdPlayers,
-        levels 
+        teams: teamsWithMatch.map(({ tempId, ...rest }) => rest),
+        levels: createdLevels,
       },
     });
-    return;
   } catch (error: any) {
-    //En caso de error, se hace rollback y no se realizan cambios en la db. 
     await transaction.rollback();
     res.status(500).json({
       status: "error",
       message: "Failed to start match",
       error: error.message,
     });
-    return;
   }
 };
 
@@ -150,3 +129,85 @@ export const deleteMatch: RequestHandler = async(req: Request, res: Response) =>
         return;
     }   
 }
+
+
+export const startRound: RequestHandler = async(req: Request, res: Response): Promise<void> =>{
+  const {matchId, levelId, playerId,status} = req.body;
+  
+  if (!matchId || !levelId || !playerId || !status) {
+    res.status(400).json({
+      status: "error",
+      message: "Missing required fields: matchId, levelId, playerId, or status",
+    });
+    return;
+  }
+
+
+  const transaction = await sequelize.transaction();
+
+  try{
+
+    const match = await Match.findByPk(matchId, { transaction });
+
+    if (!match) {
+      throw new Error(`Match with Id ${matchId} does not exist (findByPk)`);
+    }
+
+    // Actualiza el estado del Mach
+    const [affectedRows] = await Match.update(
+      { status: status },
+      { where: {id: matchId}, transaction}
+    );
+
+    
+
+    if (affectedRows === 0){
+      throw new Error(`Match with Id ${matchId} not found or not updated`);
+    }
+    const motor = await Motor.findOne({ where: { id: 1 } as any }); // Replace '1' with the actual default motor ID
+    const tires = await Tires.findOne({ where: { id: 1 } as any }); // Replace '1' with the actual default tires ID
+    const chassis = await Chassis.findOne({ where: { id: 1 } as any }); // Replace '1' with the actual default chassis ID
+    const team = await Team.findOne({ where: { id: 1 } as any });
+    
+    // Validar que existan
+    if (!motor || !tires || !chassis || !team) {
+      throw new Error("Default components (motor, tires, chassis, team) not found");
+    }
+    
+    const emptyAnswer = {
+      levelId: Number(levelId),
+      playerId: Number(playerId),
+      motorId: motor.id,
+      tiresId: tires.id,
+      chassisId: chassis.id,
+      totalWeight: 0,
+      teamId: team.id,
+      score: 0,
+      timeToScore: 0
+    };
+    
+
+    const newAnswer = await Answer.create(emptyAnswer, { transaction });
+
+    // 3. Confirmar la transacción
+    await transaction.commit();
+
+    // 4. Responder al cliente
+    res.status(200).json({
+      status: "success",
+      message: "Round started successfully",
+      payload: {
+        levelId,
+        answer: newAnswer,
+      },
+    });
+  } catch (error: any) {
+    await transaction.rollback();
+    res.status(500).json({
+      status: "error",
+      message: "Failed to start round",
+      error: error.message,
+    });
+  }
+}
+

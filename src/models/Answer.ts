@@ -6,16 +6,17 @@ import { Level } from './Level';
 import { Player } from './Player';
 import { Team } from './Team';
 
-export interface AnswerAttributes {
-  id: number;
-  playerId: number;
-  levelId: number;
-  teamId: number;
-  score: number;
+interface AnswerAttributes {
+  id?: number;
   motorId?: number;  // Opcional
   tiresId?: number;  // Opcional
   chassisId?: number;  // Opcional
   totalWeight?: number;  // Opcional
+  levelId: number;               // Relation with the Level model
+  playerId: number;              // Relation with the Player model
+  teamId: number;
+  score: number;
+  
   scorePerRound?: number[];  // Nueva columna para almacenar puntajes por ronda
   timeToScore: number;
 }
