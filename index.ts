@@ -3,9 +3,9 @@ import morgan from 'morgan';
 import sequelize from './src/connection/connection'; 
 import cors from 'cors';
 import apiRouter from './src/routes/index'; 
+import { PORT } from './src/config';
 
 const app = express();
-const port = 3000;  
 
 declare global {
   namespace Express {
@@ -42,8 +42,8 @@ const connectedSyncDB = async () => {
 };
 
 // Iniciar el servidor
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running on PORT ${PORT}`);
 });
 
 connectedSyncDB();  

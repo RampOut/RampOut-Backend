@@ -8,6 +8,8 @@ if (!process.env.JWT_SECRET) {
   throw new Error("JWT_SECRET no está definido en las variables de entorno.");
 }
 
+export const PORT = process.env.PORT; 
+
 export const secretKey = process.env.JWT_SECRET;
 
 export const DataBase = process.env.RampOut_DB;
