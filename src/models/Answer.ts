@@ -8,18 +8,15 @@ import { Team } from './Team';
 
 interface AnswerAttributes {
   id?: number;
-  motorId: number;               // Relation with the Motor model
-  tiresId: number;               // Relation with the Tires model
-  chassisId: number;             // Relation with the Chassis model
-  totalWeight: number;           // Total weight of the vehicle with which the player is playing
-  levelId: number;               // Relation with the Level model
-  playerId: number;              // Relation with the Player model
-  teamId: number;
-  score: number;
   motorId?: number;  // Opcional
   tiresId?: number;  // Opcional
   chassisId?: number;  // Opcional
   totalWeight?: number;  // Opcional
+  levelId: number;               // Relation with the Level model
+  playerId: number;              // Relation with the Player model
+  teamId: number;
+  score: number;
+  
   scorePerRound?: number[];  // Nueva columna para almacenar puntajes por ronda
   timeToScore: number;
 }

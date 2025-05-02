@@ -183,6 +183,7 @@ export const startRound: RequestHandler = async(req: Request, res: Response): Pr
       totalWeight: 0,
       teamId: team.id,
       score: 0,
+      timeToScore: 0
     };
     
 
