@@ -1,4 +1,4 @@
-import { Table, Model, Column, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Table, Model, Column, DataType, ForeignKey, BelongsTo , PrimaryKey, AutoIncrement} from 'sequelize-typescript';
 import { Level } from './Level';
 import { Optional } from 'sequelize';
 
@@ -16,11 +16,16 @@ interface ChassisCreationAttributes extends Optional<ChassisAttributes, 'id'>{}
   tableName: 'chasis'
 })
 export class Chassis extends Model<ChassisAttributes> {
+  @PrimaryKey
+  @AutoIncrement
+  @Column(DataType.INTEGER)
+  id!: number;
+
   @Column({ type: DataType.FLOAT })
   peso!: number;
 
   @Column({ type: DataType.FLOAT })
-  distEntreLLantas!: number;
+  distanceBetweenWheels!: number;
 
   @Column({ type: DataType.FLOAT})
   height!: number;

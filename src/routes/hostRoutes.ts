@@ -7,7 +7,7 @@ const hostRoutes:Router = Router();
 hostRoutes.get("/admin",verifyToken, authorizeRole("admin"), getAllHost)
 hostRoutes.get("/", verifyToken, getAccess);
 hostRoutes.get("/:id", verifyToken, getHostById);
-hostRoutes.post('/:id', verifyToken, hostLogout);
+hostRoutes.post('/logout', verifyToken, hostLogout);
 hostRoutes.post("/", verifyToken, authorizeRole("admin"), createHost);
 hostRoutes.patch("/:id", verifyToken,authorizeRole("admin"),  updateHost);
 hostRoutes.delete("/:id", verifyToken, authorizeRole("admin") ,deleteHost )

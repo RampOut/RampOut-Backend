@@ -8,6 +8,7 @@ interface PlayerAtributes {
     id: number;
     firstName: string; 
     lastName: string; 
+    idTemporal: number;
     matricula: string; 
     teamId: number; 
     levelId: number;
@@ -27,6 +28,9 @@ interface PlayersCreationAttributes extends Optional<PlayerAtributes, 'id'> {}
     @Column({ type: DataType.STRING })
     lastName!: string;
   
+    @Column({ type: DataType.INTEGER })
+    idTemporal!: number;
+
     @Column({ type: DataType.STRING })
     matricula!: string;
     @ForeignKey(() => Team)
